@@ -54,6 +54,9 @@ const DESCRIPTION_SET = [
 //количество фото
 const PHOTO_COUNT = 25;
 
+//количество комментариев
+const PHOTO_COMMENT = 4;
+
 const getRandomArrayElement = (elements) => elements[getRandomInt(0, elements.length - 1)];
 
 const getRandomPhotoDescription = (indexPhoto) => ({
@@ -61,7 +64,7 @@ const getRandomPhotoDescription = (indexPhoto) => ({
   url: `photos/${indexPhoto + 1}.jpg`,
   description: getRandomArrayElement(DESCRIPTION_SET),
   likes: getRandomInt(15, 200),
-  comments: Array.from({ length: 4 }, (indexComment) => ({
+  comments: Array.from({ length: getRandomInt (0, PHOTO_COMMENT) }, (indexComment) => ({
     id: indexComment + 1,
     avatar: `img/avatar-${getRandomInt(1, 6)}.svg`,
     message: getRandomArrayElement(MASSAGES_SET),
@@ -69,6 +72,6 @@ const getRandomPhotoDescription = (indexPhoto) => ({
   }))
 });
 
-const photoDescription = Array.from({ length: PHOTO_COUNT }, getRandomPhotoDescription);
+const photoDescription = () => Array.from({ length: PHOTO_COUNT }, getRandomPhotoDescription);
 
 photoDescription();
