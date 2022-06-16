@@ -59,19 +59,39 @@ const PHOTO_COMMENT = 4;
 
 const getRandomArrayElement = (elements) => elements[getRandomInt(0, elements.length - 1)];
 
-const getRandomPhotoDescription = (indexPhoto) => ({
-  id: indexPhoto + 1,
-  url: `photos/${indexPhoto + 1}.jpg`,
+const imageId = [];
+for (let i = 1; i <= PHOTO_COUNT; i++) {
+  imageId.push(i);
+}
+
+const imageIdComments = [];
+for (let i=1; i<=1000; i++) {
+  imageIdComments.push(i);
+}
+
+const getComments = () => {
+  const comments = [];
+
+  for (let i = 0; i <=getRandomInt(1, PHOTO_COMMENT); i++) {
+    comments.push({
+      id: imageIdComments.shift(),
+      avatar: `img/avatar-${getRandomInt(1, 6)}.svg`,
+      message: getRandomArrayElement(MASSAGES_SET),
+      name: getRandomArrayElement(NAMES),
+    });
+  }
+  return comments;
+};
+
+const getRandomPhotoDescription = () => ({
+  id: imageId.shift(),
+  url: `photos/${getRandomInt(1, 25)}.jpg`,
   description: getRandomArrayElement(DESCRIPTION_SET),
   likes: getRandomInt(15, 200),
-  comments: Array.from({ length: getRandomInt (0, PHOTO_COMMENT) }, (indexComment) => ({
-    id: indexComment + 1,
-    avatar: `img/avatar-${getRandomInt(1, 6)}.svg`,
-    message: getRandomArrayElement(MASSAGES_SET),
-    name: getRandomArrayElement(NAMES),
-  }))
+  comments: getComments(),
 });
 
-const photoDescription = () => Array.from({ length: PHOTO_COUNT }, getRandomPhotoDescription);
+const photoDescription = Array.from({ length: PHOTO_COUNT }, getRandomPhotoDescription);
 
-photoDescription();
+// eslint-disable-next-line no-console
+console.log(photoDescription);
