@@ -34,7 +34,9 @@ pristine.addValidator(textHashtags, validateCountHashtags, `Не более ${MA
 const FormValidation = () => {
   uploadPhotoForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
-    pristine.validate();
+    if (pristine.validate()) {
+      uploadPhotoForm.submit();
+    }
   });
 };
 
