@@ -1,3 +1,5 @@
+import { isEscapeKey } from './util.js';
+
 const body = document.querySelector('body');
 const photoContainer = document.querySelector('.big-picture');
 const photoCloseButton = photoContainer.querySelector('#picture-cancel');
@@ -10,19 +12,21 @@ const commentItem = photoContainer.querySelector('.social__comment');
 const commentLoader = photoContainer.querySelector('.comments-loader');
 const commentFragment = document.createDocumentFragment();
 
-const closePhoto = () => {
+const cancelPhotoContainer = () => {
   photoContainer.classList.add('hidden');
   body.classList.remove('modal-open');
-  document.removeEventListener('keydown', photoCloseHandler);
+  document.removeEventListener('keydown', onPhotoEscKeydown);
 };
 
-function photoCloseHandler(evt) {
-  if (evt.key === 'Escape') {
-    closePhoto();
+function onPhotoEscKeydown (evt) {
+  if (isEscapeKey(evt)) {
+    evt.preventDefault();
+    cancelPhotoContainer();
   }
 }
 
-photoCloseButton.addEventListener('click', closePhoto);
+photoCloseButton.addEventListener('click', cancelPhotoContainer);
+
 const renderFullSizePhoto = ({ url, description, likes, comments }) => {
   photoContainer.classList.remove('hidden');
   commentCount.classList.add('hidden');
@@ -42,7 +46,7 @@ const renderFullSizePhoto = ({ url, description, likes, comments }) => {
   });
   commentContainer.innerHTML = '';
   commentContainer.append(commentFragment);
-  document.addEventListener('keydown', photoCloseHandler);
+  document.addEventListener('keydown', onPhotoEscKeydown);
 };
 
 export { renderFullSizePhoto };
