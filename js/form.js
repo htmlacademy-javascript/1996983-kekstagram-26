@@ -1,13 +1,15 @@
 import { isEscapeKey } from './util.js';
 import { FormValidation } from './validation.js';
+import { addScaleHandler, removeScaleHandler } from './changing-image-scale.js';
+import { setNoneEffect } from './image-slider-effects.js';
 
 const body = document.querySelector('body');
-const uploadPhotoForm = document.querySelector('#upload-select-image');
-const uploadPhotoFile = document.querySelector('#upload-file');
-const photoEditContainer = document.querySelector('.img-upload__overlay');
-const cancelPhotoButton = photoEditContainer.querySelector('#upload-cancel');
-const textHashtags = uploadPhotoForm.querySelector('.text__hashtags');
-const textComment = uploadPhotoForm.querySelector('.text__description');
+const uploadPhotoFormNode = document.querySelector('#upload-select-image');
+const uploadPhotoFileNode = document.querySelector('#upload-file');
+const photoEditContainerNode = document.querySelector('.img-upload__overlay');
+const cancelPhotoButton = photoEditContainerNode.querySelector('#upload-cancel');
+const textHashtags = uploadPhotoFormNode.querySelector('.text__hashtags');
+const textComment = uploadPhotoFormNode.querySelector('.text__description');
 
 const onPhotoEscKeydown = (evt) => {
   if (isEscapeKey(evt)) {
@@ -17,10 +19,11 @@ const onPhotoEscKeydown = (evt) => {
 };
 
 function cancelPhotoContainer() {
-  photoEditContainer.classList.add('hidden');
+  photoEditContainerNode.classList.add('hidden');
   body.classList.remove('modal-open');
   document.removeEventListener('keydown', onPhotoEscKeydown);
-  uploadPhotoForm.reset();
+  uploadPhotoFormNode.reset();
+  removeScaleHandler();
 }
 
 cancelPhotoButton.addEventListener('click', () => cancelPhotoContainer());
@@ -34,13 +37,15 @@ textHashtags.addEventListener('keydown', onFocusInputEscKeydown);
 textComment .addEventListener('keydown', onFocusInputEscKeydown);
 
 const onUploadFileChange = () => {
-  photoEditContainer.classList.remove('hidden');
+  photoEditContainerNode.classList.remove('hidden');
   body.classList.add('modal-open');
   document.addEventListener('keydown', onPhotoEscKeydown);
+  addScaleHandler();
+  setNoneEffect();
 };
 
 const uploadFile = () => {
-  uploadPhotoFile.addEventListener('change', onUploadFileChange);
+  uploadPhotoFileNode.addEventListener('change', onUploadFileChange);
   FormValidation();
 };
 
