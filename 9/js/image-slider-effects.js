@@ -1,4 +1,4 @@
-const SettingsEffects = {
+const settingsEffects = {
   chrome: {
     filter: 'grayscale',
     minValueSlider: 0,
@@ -56,9 +56,11 @@ noUiSlider.create(rangeSliderNode, {
 
 // скрытие эффектов
 const setNoneEffect = () => {
+  rangeSliderNode.setAttribute('disabled', true);
   rangeSliderContainerNode.classList.add('hidden');
   photoPreviewImageNode.className = 'img-upload__preview';
   photoPreviewImageNode.style.filter = '';
+  effectLevelValueNode.value = ' ';
 };
 
 // смена эффектов
@@ -69,20 +71,11 @@ const onEffectListChange = (evt) => {
   if (selectedEffect === 'none') {
     setNoneEffect();
   } else {
+    rangeSliderNode.removeAttribute('disabled');
     rangeSliderContainerNode.classList.remove('hidden');
     photoPreviewImageNode.className = 'img-upload__preview';
     photoPreviewImageNode.classList.add(`effects__preview--${selectedEffect}`);
-    const objectSelectedEffect = SettingsEffects[selectedEffect];
-    const { minValueSlider, maxValueSlider, stepSlider } = objectSelectedEffect;
-    rangeSliderNode.noUiSlider.updateOptions({
-      range: {
-        min: minValueSlider,
-        max: maxValueSlider,
-      },
-      start: maxValueSlider,
-      step: stepSlider,
-    });
-    rangeSliderNode.noUiSlider.set(maxValueSlider);
+    rangeSliderNode.noUiSlider.updateOptions(settingsEffects[selectedEffect].options);
   }
 };
 
@@ -92,10 +85,11 @@ effectListNode.addEventListener('change', onEffectListChange);
 rangeSliderNode.noUiSlider.on('update', () => {
   const valueRangeSlider = rangeSliderNode.noUiSlider.get();
   effectLevelValueNode.value = valueRangeSlider;
-  const objectSelectedEffect = SettingsEffects[photoEditContainerNode.querySelector('input[name="effect"]:checked').value];
-  if (objectSelectedEffect !== undefined) {
-    const { filter, unitOfMeasure } = objectSelectedEffect;
-    photoPreviewImageNode.style.filter = `${filter}(${valueRangeSlider}${unitOfMeasure})`;
+
+  const effectCheckedValueNode = document.querySelector('input[name="effect"]:checked');
+  if (effectCheckedValueNode && effectCheckedValueNode.value !== 'none') {
+    const { filter, unit } = settingsEffects[effectCheckedValueNode.value];
+    photoPreviewImageNode.style.filter = `${filter}(${valueRangeSlider}${unit})`;
   }
 });
 
