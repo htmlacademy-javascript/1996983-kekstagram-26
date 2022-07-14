@@ -85,7 +85,7 @@ const setNoneEffect = () => {
   rangeSliderContainerNode.classList.add('hidden');
   photoPreviewImageNode.className = 'img-upload__preview';
   photoPreviewImageNode.style.filter = '';
-  effectLevelValueNode.value = ' ';
+  effectLevelValueNode.value = '';
 };
 
 // смена эффектов
