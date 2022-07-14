@@ -1,38 +1,63 @@
 const settingsEffects = {
   chrome: {
     filter: 'grayscale',
-    minValueSlider: 0,
-    maxValueSlider: 1,
-    stepSlider: 0.1,
-    unitOfMeasure: '',
+    unit: '',
+    options: {
+      range: {
+        min: 0,
+        max: 1,
+      },
+      start: 1,
+      step: 0.1,
+    },
   },
   sepia: {
     filter: 'sepia',
-    minValueSlider: 0,
-    maxValueSlider: 1,
-    stepSlider: 0.1,
-    unitOfMeasure: '',
+    unit: '',
+    options: {
+      range: {
+        min: 0,
+        max: 1,
+      },
+      start: 1,
+      step: 0.1,
+    },
   },
   marvin: {
     filter: 'invert',
-    minValueSlider: 0,
-    maxValueSlider: 100,
-    stepSlider: 1,
-    unitOfMeasure: '%',
+    unit: '%',
+    options: {
+      range: {
+        min: 0,
+        max: 100,
+      },
+      start: 100,
+      step: 1,
+    },
   },
   phobos: {
     filter: 'blur',
-    minValueSlider: 0,
-    maxValueSlider: 3,
-    stepSlider: 0.1,
-    unitOfMeasure: 'px',
+    unit: 'px',
+    options: {
+      range: {
+        min: 0,
+        max: 3,
+      },
+      start: 3,
+      step: 0.1,
+    },
   },
   heat: {
     filter: 'brightness',
-    minValueSlider: 1,
-    maxValueSlider: 3,
-    stepSlider: 0.1,
-    unitOfMeasure: '',
+    unit: '',
+    options: {
+      range: {
+        min: 1,
+        max: 3,
+      },
+      start: 3,
+      step: 0.1,
+    },
   }
 };
 
