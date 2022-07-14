@@ -1,8 +1,8 @@
 const MAX_COUNT_HASHTAGS = 5;
-const uploadPhotoForm = document.querySelector('#upload-select-image');
-const textHashtags = uploadPhotoForm.querySelector('.text__hashtags');
+const uploadPhotoFormNode = document.querySelector('#upload-select-image');
+const textHashtags = uploadPhotoFormNode.querySelector('.text__hashtags');
 
-const pristine = new window.Pristine(uploadPhotoForm, {
+const pristine = new window.Pristine(uploadPhotoFormNode, {
   classTo: 'img-upload__field-wrapper',
   errorTextParent: 'img-upload__field-wrapper',
   errorTextClass: 'img-upload__error-text',
@@ -32,10 +32,10 @@ pristine.addValidator(textHashtags, validateCountHashtags, `Не более ${MA
 
 
 const FormValidation = () => {
-  uploadPhotoForm.addEventListener('submit', (evt) => {
+  uploadPhotoFormNode.addEventListener('submit', (evt) => {
     evt.preventDefault();
     if (pristine.validate()) {
-      uploadPhotoForm.submit();
+      uploadPhotoFormNode.submit();
     }
   });
 };
