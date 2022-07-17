@@ -1,3 +1,5 @@
+const ERROR_SHOW_TIME = 5000;
+
 //Функция, возвращающая случайное целое число из переданного диапазона
 
 const getRandomInt = (min, max)  => {
@@ -21,5 +23,17 @@ const getRandomArrayElement = (elements) => elements[getRandomInt(0, elements.le
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
-export { getRandomInt, getRandomArrayElement, isEscapeKey };
 
+//ошибка
+const showError = () => {
+  const errorSectionNode = document.createElement('section');
+  errorSectionNode.className = 'error';
+  errorSectionNode.insertAdjacentHTML('afterbegin',
+    '<div class="error__inner"><h2 class="error__title">Не удалось загрузить фотографии</h2></div>');
+  document.body.append(errorSectionNode);
+  setTimeout(() => {
+    errorSectionNode.remove();
+  }, ERROR_SHOW_TIME);
+};
+
+export { getRandomInt, getRandomArrayElement, isEscapeKey, showError};

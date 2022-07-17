@@ -1,66 +1,97 @@
-import { isEscapeKey } from './util.js';
+import { sendData } from './api.js';
 import { FormValidation } from './validation.js';
-import { addScaleHandler, removeScaleHandler } from './changing-image-scale.js';
-import { setNoneEffect } from './image-slider-effects.js';
+import { isEscapeKey } from './util.js';
+import { cancelPhotoContainer, uploadPhotoFormNode, body } from './upload-form.js';
 
-const PREVIEW_SCALE_DEFAULT = 100;
+const successContainerNode = document.querySelector('#success').content.querySelector('.success').cloneNode(true);
+const successButtonNode = successContainerNode.querySelector('.success__button');
+const errorContainerNode = document.querySelector('#error').content.querySelector('.error').cloneNode(true);
+const errorButtonNode = errorContainerNode.querySelector('.error__button');
+const submitButtonNode = document.querySelector('#upload-submit');
 
-const body = document.querySelector('body');
-const uploadPhotoFormNode = document.querySelector('#upload-select-image');
-const uploadPhotoFileNode = document.querySelector('#upload-file');
-const photoEditContainerNode = document.querySelector('.img-upload__overlay');
-const cancelPhotoButton = photoEditContainerNode.querySelector('#upload-cancel');
-const textHashtags = uploadPhotoFormNode.querySelector('.text__hashtags');
-const textComment = uploadPhotoFormNode.querySelector('.text__description');
-const scaleControlValue = photoEditContainerNode.querySelector('.scale__control--value');
-const photoPreviewImageNode = photoEditContainerNode.querySelector('.img-upload__preview');
-
-const clearEnterData = () => {
-  scaleControlValue.value = `${PREVIEW_SCALE_DEFAULT}%`;
-  photoPreviewImageNode.style = 'transform: scale(1)';
-
-  uploadPhotoFormNode.reset();
-  photoPreviewImageNode.style.filter = 'none';
-  photoPreviewImageNode.src = '';
+const blockSubmitButton = () => {
+  submitButtonNode.disabled = true;
+  submitButtonNode.textContent = 'Публикую...';
 };
 
-const onPhotoEscKeydown = (evt) => {
+const unblockSubmitButton = () => {
+  submitButtonNode.disabled = false;
+  submitButtonNode.textContent = 'Опубликовать';
+};
+
+const onSuccessContainerEscKeydown = (evt) => {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
-    cancelPhotoContainer();
+    cancelSuccessMessage();
   }
 };
 
-function cancelPhotoContainer() {
-  photoEditContainerNode.classList.add('hidden');
-  body.classList.remove('modal-open');
-  document.removeEventListener('keydown', onPhotoEscKeydown);
-  uploadPhotoFormNode.reset();
-  removeScaleHandler();
-  clearEnterData();
+const onDocumentExceptSuccessContainerClick = (evt) => {
+  if (evt.target === successContainerNode) {
+    cancelSuccessMessage();
+  }
+};
+
+successButtonNode.addEventListener('click', () => cancelSuccessMessage());
+
+function cancelSuccessMessage() {
+  successContainerNode.remove();
+  document.removeEventListener('keydown', onSuccessContainerEscKeydown);
+  document.removeEventListener('click', onDocumentExceptSuccessContainerClick);
 }
 
-cancelPhotoButton.addEventListener('click', () => cancelPhotoContainer());
+const showSuccessMessage = () => {
+  body.append(successContainerNode);
+  document.addEventListener('keydown', onSuccessContainerEscKeydown);
+  document.addEventListener('click', onDocumentExceptSuccessContainerClick);
+};
 
-const onFocusInputEscKeydown = (evt) => {
+const onErrorContainerEscKeydown = (evt) => {
   if (isEscapeKey(evt)) {
-    evt.stopPropagation();
+    evt.preventDefault();
+    cancelErrorMessage();
   }
 };
-textHashtags.addEventListener('keydown', onFocusInputEscKeydown);
-textComment .addEventListener('keydown', onFocusInputEscKeydown);
 
-const onUploadFileChange = () => {
-  photoEditContainerNode.classList.remove('hidden');
-  body.classList.add('modal-open');
-  document.addEventListener('keydown', onPhotoEscKeydown);
-  addScaleHandler();
-  setNoneEffect();
+const onDocumentExceptErrorContainerClick = (evt) => {
+  if (evt.target === errorContainerNode) {
+    cancelErrorMessage();
+  }
 };
 
-const uploadFile = () => {
-  uploadPhotoFileNode.addEventListener('change', onUploadFileChange);
-  FormValidation();
+errorButtonNode.addEventListener('click', () => cancelErrorMessage());
+
+function cancelErrorMessage() {
+  errorContainerNode.remove();
+  document.removeEventListener('keydown', onErrorContainerEscKeydown);
+  document.removeEventListener('click', onDocumentExceptErrorContainerClick);
+}
+
+const showErrorMessage = () => {
+  body.append(errorContainerNode);
+  document.addEventListener('keydown', onErrorContainerEscKeydown);
+  document.addEventListener('click', onDocumentExceptErrorContainerClick);
 };
 
-export { uploadFile };
+const onSuccessSendForm = () => {
+  cancelPhotoContainer();
+  showSuccessMessage();
+  unblockSubmitButton();
+};
+
+const onFailSendForm = () => {
+  showErrorMessage();
+  unblockSubmitButton();
+};
+
+const setUploadFormSubmit = () => {
+  uploadPhotoFormNode.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    if (FormValidation()) {
+      blockSubmitButton();
+      sendData(onSuccessSendForm, onFailSendForm, new FormData(evt.target));
+    }
+  });
+};
+
+export { setUploadFormSubmit };
