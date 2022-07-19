@@ -5,7 +5,6 @@ const textHashtags = uploadPhotoFormNode.querySelector('.text__hashtags');
 const pristine = new window.Pristine(uploadPhotoFormNode, {
   classTo: 'img-upload__field-wrapper',
   errorTextParent: 'img-upload__field-wrapper',
-  errorTextClass: 'img-upload__error-text',
 });
 
 const getArrayHashtags = (value) => (value.trim().toLowerCase().split(' '));
@@ -30,14 +29,6 @@ pristine.addValidator(textHashtags, validateHashtags, 'Некорректно в
 pristine.addValidator(textHashtags, validateUniqueHashtags, 'Хэш-теги не должны повторяться');
 pristine.addValidator(textHashtags, validateCountHashtags, `Не более ${MAX_COUNT_HASHTAGS} хэш-тегов`);
 
-
-const FormValidation = () => {
-  uploadPhotoFormNode.addEventListener('submit', (evt) => {
-    evt.preventDefault();
-    if (pristine.validate()) {
-      uploadPhotoFormNode.submit();
-    }
-  });
-};
+const FormValidation = () => pristine.validate();
 
 export { FormValidation };

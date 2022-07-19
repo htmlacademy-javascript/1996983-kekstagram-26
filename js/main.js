@@ -1,9 +1,7 @@
-import { photoDescription } from './data.js';
 import { renderThumbanails } from './thumbanails.js';
-import { uploadFile } from './form.js';
+import { getData } from './api.js';
+import { showError } from './util.js';
+import { setUploadFormSubmit } from './form.js';
 
-renderThumbanails(photoDescription);
-uploadFile();
-
-// eslint-disable-next-line no-console
-console.log(photoDescription);
+getData(renderThumbanails, showError);
+setUploadFormSubmit();

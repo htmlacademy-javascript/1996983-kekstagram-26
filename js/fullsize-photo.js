@@ -17,6 +17,7 @@ const cancelPhotoContainer = () => {
   photoContainerNode.classList.add('hidden');
   body.classList.remove('modal-open');
   document.removeEventListener('keydown', onPhotoEscKeydown);
+  commentsLoaderButton.onclick = null;
 };
 
 function onPhotoEscKeydown (evt) {
@@ -65,10 +66,10 @@ const renderFullSizePhoto = ({ url, description, likes, comments }) => {
   photoLikesNode.textContent = likes;
 
   renderComments(comments, countClickLoadComments);
-  commentsLoaderButton.addEventListener('click', () => {
+  commentsLoaderButton.onclick = () => {
     countClickLoadComments++;
     renderComments(comments, countClickLoadComments);
-  });
+  };
   document.addEventListener('keydown', onPhotoEscKeydown);
 };
 
