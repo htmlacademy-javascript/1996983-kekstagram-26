@@ -1,4 +1,4 @@
-const ERROR_SHOW_TIME = 5000;
+const ALERT_SHOW_TIME = 5000;
 
 //Функция, возвращающая случайное целое число из переданного диапазона
 
@@ -23,17 +23,34 @@ const getRandomArrayElement = (elements) => elements[getRandomInt(0, elements.le
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
-
-//ошибка
-const showError = () => {
-  const errorSectionNode = document.createElement('section');
-  errorSectionNode.className = 'error';
-  errorSectionNode.insertAdjacentHTML('afterbegin',
-    '<div class="error__inner"><h2 class="error__title">Не удалось загрузить фотографии</h2></div>');
-  document.body.append(errorSectionNode);
+// устранение дребезга
+const showAlert = (message) => {
+  const alertContainer = document.createElement('div');
+  alertContainer.className = 'alert';
+  const alertText = document.createElement('h2');
+  alertText.className = 'error__title';
+  alertText.textContent = message;
+  alertContainer.append(alertText);
+  document.body.append(alertContainer);
   setTimeout(() => {
-    errorSectionNode.remove();
-  }, ERROR_SHOW_TIME);
+    alertContainer.remove();
+  }, ALERT_SHOW_TIME);
 };
 
-export { getRandomInt, getRandomArrayElement, isEscapeKey, showError};
+const shuffleArray = (array) => {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = getRandomArrayElement(0, i);
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+};
+
+const debounce = (callback, timeoutDelay = 500) => {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+};
+
+export { isEscapeKey, showAlert, shuffleArray, debounce };

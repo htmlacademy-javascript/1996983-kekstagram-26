@@ -61,12 +61,11 @@ const settingsEffects = {
   }
 };
 
-const photoEditContainerNode = document.querySelector('.img-upload__overlay');
-const photoPreviewImageNode = photoEditContainerNode.querySelector('.img-upload__preview');
-const effectListNode = photoEditContainerNode.querySelector('.effects__list');
-const effectLevelValueNode = photoEditContainerNode.querySelector('.effect-level__value');
-const rangeSliderNode = photoEditContainerNode.querySelector('.effect-level__slider');
-const rangeSliderContainerNode = photoEditContainerNode.querySelector('.img-upload__effect-level');
+const photoPreviewImageNode = document.querySelector('.img-upload__preview');
+const effectListNode = document.querySelector('.effects__list');
+const effectLevelValueNode = document.querySelector('.effect-level__value');
+const rangeSliderNode = document.querySelector('.effect-level__slider');
+const rangeSliderContainerNode = document.querySelector('.img-upload__effect-level');
 
 // создание слайдера
 noUiSlider.create(rangeSliderNode, {
@@ -80,7 +79,7 @@ noUiSlider.create(rangeSliderNode, {
 });
 
 // скрытие эффектов
-const setNoneEffect = () => {
+const resetEffect = () => {
   rangeSliderNode.setAttribute('disabled', true);
   rangeSliderContainerNode.classList.add('hidden');
   photoPreviewImageNode.className = 'img-upload__preview';
@@ -94,7 +93,7 @@ const onEffectListChange = (evt) => {
   const selectedEffect = evt.target.value;
 
   if (selectedEffect === 'none') {
-    setNoneEffect();
+    resetEffect();
   } else {
     rangeSliderNode.removeAttribute('disabled');
     rangeSliderContainerNode.classList.remove('hidden');
@@ -118,4 +117,4 @@ rangeSliderNode.noUiSlider.on('update', () => {
   }
 });
 
-export { setNoneEffect };
+export { resetEffect };
