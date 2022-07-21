@@ -29,6 +29,6 @@ pristine.addValidator(textHashtags, validateHashtags, 'Некорректно в
 pristine.addValidator(textHashtags, validateUniqueHashtags, 'Хэш-теги не должны повторяться');
 pristine.addValidator(textHashtags, validateCountHashtags, `Не более ${MAX_COUNT_HASHTAGS} хэш-тегов`);
 
-const FormValidation = () => pristine.validate();
+const FormValidation = () => pristine.validate(textHashtags);
 
 export { FormValidation };

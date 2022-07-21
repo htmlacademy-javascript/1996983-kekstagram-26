@@ -9,16 +9,19 @@ const errorContainerNode = document.querySelector('#error').content.querySelecto
 const errorButtonNode = errorContainerNode.querySelector('.error__button');
 const submitButtonNode = document.querySelector('#upload-submit');
 
+//блокировка кнопки
 const blockSubmitButton = () => {
   submitButtonNode.disabled = true;
   submitButtonNode.textContent = 'Публикую...';
 };
 
+//разблокировка кнопки
 const unblockSubmitButton = () => {
   submitButtonNode.disabled = false;
   submitButtonNode.textContent = 'Опубликовать';
 };
 
+//успешная отправка
 const onSuccessContainerEscKeydown = (evt) => {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
@@ -46,6 +49,8 @@ const showSuccessMessage = () => {
   document.addEventListener('click', onDocumentExceptSuccessContainerClick);
 };
 
+
+//ошибка отправки
 const onErrorContainerEscKeydown = (evt) => {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
@@ -73,23 +78,21 @@ const showErrorMessage = () => {
   document.addEventListener('click', onDocumentExceptErrorContainerClick);
 };
 
-const onSuccessSendForm = () => {
-  cancelPhotoContainer();
-  showSuccessMessage();
-  unblockSubmitButton();
-};
-
-const onFailSendForm = () => {
-  showErrorMessage();
-  unblockSubmitButton();
-};
-
 const setUploadFormSubmit = () => {
   uploadPhotoFormNode.addEventListener('submit', (evt) => {
     evt.preventDefault();
     if (FormValidation()) {
       blockSubmitButton();
-      sendData(onSuccessSendForm, onFailSendForm, new FormData(evt.target));
+      sendData(() => {
+        cancelPhotoContainer();
+        showSuccessMessage();
+        unblockSubmitButton();
+      },
+      () => {
+        showErrorMessage();
+        unblockSubmitButton();
+      },
+      new FormData(evt.target));
     }
   });
 };

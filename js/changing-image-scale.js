@@ -3,11 +3,10 @@ const PREVIEW_MIN_SCALE = 25;
 const PREVIEW_MAX_SCALE = 100;
 const PREVIEW_SCALE_DEFAULT = 100;
 
-const photoEditContainerNode = document.querySelector('.img-upload__overlay');
-const photoPreviewImageNode = photoEditContainerNode.querySelector('.img-upload__preview');
-const scaleControlValue = photoEditContainerNode.querySelector('.scale__control--value');
-const  scaleControlBigger = photoEditContainerNode.querySelector('.scale__control--bigger');
-const scaleControlSmaller = photoEditContainerNode.querySelector('.scale__control--smaller');
+const photoPreviewImageNode = document.querySelector('.img-upload__preview');
+const scaleControlValue = document.querySelector('.scale__control--value');
+const scaleControlBigger = document.querySelector('.scale__control--bigger');
+const scaleControlSmaller = document.querySelector('.scale__control--smaller');
 
 // Уменьшение масштаба
 const onReduceScale = () => {

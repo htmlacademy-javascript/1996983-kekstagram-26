@@ -1,18 +1,17 @@
 import { isEscapeKey } from './util.js';
 import { addScaleHandler, removeScaleHandler } from './changing-image-scale.js';
-import { setNoneEffect } from './image-slider-effects.js';
+import { resetEffect } from './image-slider-effects.js';
+import { showPhotoPreview, fileChooserNode } from './preview-photo.js';
 
 const body = document.querySelector('body');
-const uploadPhotoFileNode = document.querySelector('#upload-file');
 const photoEditContainerNode = document.querySelector('.img-upload__overlay');
-const cancelPhotoButton = photoEditContainerNode.querySelector('#upload-cancel');
+const cancelPhotoButtonNode = photoEditContainerNode.querySelector('#upload-cancel');
 const uploadPhotoFormNode = document.querySelector('#upload-select-image');
 const textHashtags = uploadPhotoFormNode.querySelector('.text__hashtags');
 const textComment = uploadPhotoFormNode.querySelector('.text__description');
 
-
 const onPhotoEscKeydown = (evt) => {
-  if (isEscapeKey(evt) && !body.contains('.error')){
+  if (isEscapeKey(evt) && !body.contains(document.querySelector('.error'))) {
     evt.preventDefault();
     cancelPhotoContainer();
   }
@@ -26,17 +25,18 @@ function cancelPhotoContainer() {
   removeScaleHandler();
 }
 
-cancelPhotoButton.addEventListener('click', () => cancelPhotoContainer());
+cancelPhotoButtonNode.addEventListener('click', () => cancelPhotoContainer());
 
 const onUploadFileChange = () => {
   photoEditContainerNode.classList.remove('hidden');
   body.classList.add('modal-open');
   document.addEventListener('keydown', onPhotoEscKeydown);
   addScaleHandler();
-  setNoneEffect();
+  resetEffect();
+  showPhotoPreview();
 };
 
-uploadPhotoFileNode.addEventListener('change', onUploadFileChange);
+fileChooserNode.addEventListener('change', onUploadFileChange);
 
 const onFocusInputEscKeydown = (evt) => {
   if (isEscapeKey(evt)) {
