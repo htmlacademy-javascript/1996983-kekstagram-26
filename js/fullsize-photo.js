@@ -14,12 +14,12 @@ const commentFragmentNode = document.createDocumentFragment();
 const COMMENTS_BLOCK = 5;
 
 // закрытие формы
-const cancelPhotoContainer = () => {
+function cancelPhotoContainer () {
   photoContainerNode.classList.add('hidden');
   body.classList.remove('modal-open');
   document.removeEventListener('keydown', onPhotoEscKeydown);
   commentsLoaderButtonNode.onclick = null;
-};
+}
 
 photoButtonNode.addEventListener('click', cancelPhotoContainer);
 
