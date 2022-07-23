@@ -25,7 +25,7 @@ function cancelPhotoContainer() {
   removeScaleHandler();
 }
 
-cancelPhotoButtonNode.addEventListener('click', () => cancelPhotoContainer());
+cancelPhotoButtonNode.addEventListener('click', cancelPhotoContainer);
 
 const onUploadFileChange = () => {
   photoEditContainerNode.classList.remove('hidden');
@@ -47,4 +47,4 @@ const onFocusInputEscKeydown = (evt) => {
 textHashtags.addEventListener('keydown', onFocusInputEscKeydown);
 textComment .addEventListener('keydown', onFocusInputEscKeydown);
 
-export { cancelPhotoContainer, uploadPhotoFormNode, body};
+export { cancelPhotoContainer, uploadPhotoFormNode, textHashtags, onPhotoEscKeydown};

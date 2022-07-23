@@ -1,6 +1,6 @@
+import { uploadPhotoFormNode, textHashtags } from './upload-form.js';
+
 const MAX_COUNT_HASHTAGS = 5;
-const uploadPhotoFormNode = document.querySelector('#upload-select-image');
-const textHashtags = uploadPhotoFormNode.querySelector('.text__hashtags');
 
 const pristine = new window.Pristine(uploadPhotoFormNode, {
   classTo: 'img-upload__field-wrapper',
