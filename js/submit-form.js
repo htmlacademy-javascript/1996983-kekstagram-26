@@ -1,8 +1,9 @@
 import { sendData } from './api.js';
 import { FormValidation } from './validation.js';
 import { isEscapeKey } from './util.js';
-import { cancelPhotoContainer, uploadPhotoFormNode, body } from './upload-form.js';
+import { cancelPhotoContainer, uploadPhotoFormNode } from './upload-form.js';
 
+const body = document.querySelector('body');
 const successContainerNode = document.querySelector('#success').content.querySelector('.success').cloneNode(true);
 const successButtonNode = successContainerNode.querySelector('.success__button');
 const errorContainerNode = document.querySelector('#error').content.querySelector('.error').cloneNode(true);
@@ -35,7 +36,7 @@ const onDocumentExceptSuccessContainerClick = (evt) => {
   }
 };
 
-successButtonNode.addEventListener('click', () => cancelSuccessMessage());
+successButtonNode.addEventListener('click', cancelSuccessMessage);
 
 function cancelSuccessMessage() {
   successContainerNode.remove();
@@ -48,7 +49,6 @@ const showSuccessMessage = () => {
   document.addEventListener('keydown', onSuccessContainerEscKeydown);
   document.addEventListener('click', onDocumentExceptSuccessContainerClick);
 };
-
 
 //ошибка отправки
 const onErrorContainerEscKeydown = (evt) => {
@@ -64,7 +64,7 @@ const onDocumentExceptErrorContainerClick = (evt) => {
   }
 };
 
-errorButtonNode.addEventListener('click', () => cancelErrorMessage());
+errorButtonNode.addEventListener('click', cancelErrorMessage);
 
 function cancelErrorMessage() {
   errorContainerNode.remove();
