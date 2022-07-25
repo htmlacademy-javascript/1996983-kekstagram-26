@@ -1,4 +1,4 @@
-import { onPhotoEscKeydown } from './upload-form.js';
+import { isEscapeKey } from './util.js';
 
 const body = document.querySelector('body');
 const photoContainerNode = document.querySelector('.big-picture');
@@ -12,6 +12,13 @@ const commentContainerNode = photoContainerNode.querySelector('.social__comments
 const commentItemNode = photoContainerNode.querySelector('.social__comment');
 const commentFragmentNode = document.createDocumentFragment();
 const COMMENTS_BLOCK = 5;
+
+const onPhotoEscKeydown = (evt) => {
+  if (isEscapeKey(evt) && !body.contains(document.querySelector('.error'))) {
+    evt.preventDefault();
+    cancelPhotoContainer();
+  }
+};
 
 // закрытие формы
 function cancelPhotoContainer () {
